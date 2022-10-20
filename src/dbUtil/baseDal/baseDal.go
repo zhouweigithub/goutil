@@ -2,8 +2,9 @@ package baseDAL
 
 import (
 	mysql "database/sql"
-	logutil "goutil/logUtil"
 	"log"
+
+	logutil "github.com/zhouweigithub/goutil/logUtil"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )

@@ -2,8 +2,9 @@ package errutil
 
 import (
 	"fmt"
-	logutil "goutil/logUtil"
 	"runtime/debug"
+
+	logutil "github.com/zhouweigithub/goutil/logUtil"
 )
 
 func CatchError() {

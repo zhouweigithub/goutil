@@ -1,13 +1,14 @@
 package configutil
 
 import (
-	logutil "goutil/logUtil"
 	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
 	"runtime"
 	"strings"
+
+	logutil "github.com/zhouweigithub/goutil/logUtil"
 
 	"gopkg.in/yaml.v2"
 )

@@ -1,13 +1,14 @@
 package iputil
 
 import (
-	errutil "goutil/errUtil"
-	logutil "goutil/logUtil"
-	randutil "goutil/randUtil"
-	webutil "goutil/webUtil"
 	"regexp"
 	"strings"
 	"time"
+
+	errutil "github.com/zhouweigithub/goutil/errUtil"
+	logutil "github.com/zhouweigithub/goutil/logUtil"
+	randutil "github.com/zhouweigithub/goutil/randUtil"
+	webutil "github.com/zhouweigithub/goutil/webUtil"
 )
 
 var ipServerList = [...]string{"https://ipv4.ddnspod.com", "https://ipecho.net/plain", "https://ipinfo.io/ip"}

@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	timeutil "goutil/timeUtil"
 	"time"
+
+	timeutil "github.com/zhouweigithub/goutil/timeUtil"
 )
 
 func main() {

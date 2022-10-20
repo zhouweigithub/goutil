@@ -2,11 +2,12 @@ package mailutil
 
 import (
 	"errors"
-	errutil "goutil/errUtil"
-	logutil "goutil/logUtil"
-	randutil "goutil/randUtil"
 	"strings"
 	"time"
+
+	errutil "github.com/zhouweigithub/goutil/errUtil"
+	logutil "github.com/zhouweigithub/goutil/logUtil"
+	randutil "github.com/zhouweigithub/goutil/randUtil"
 
 	"gopkg.in/gomail.v2"
 )

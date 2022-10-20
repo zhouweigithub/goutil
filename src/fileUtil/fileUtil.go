@@ -1,11 +1,12 @@
 package fileutil
 
 import (
-	logutil "goutil/logutil"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	logutil "github.com/zhouweigithub/goutil/logutil"
 )
 
 //读取文件所有内容字符串

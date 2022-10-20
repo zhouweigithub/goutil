@@ -3,12 +3,13 @@ package webutil
 import (
 	"bytes"
 	"fmt"
-	errutil "goutil/errUtil"
-	logutil "goutil/logUtil"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
+
+	errutil "github.com/zhouweigithub/goutil/errUtil"
+	logutil "github.com/zhouweigithub/goutil/logUtil"
 )
 
 // Post 发送Post请求到指定URL

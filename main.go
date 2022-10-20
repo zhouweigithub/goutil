@@ -1,5 +1,5 @@
 package goutil
 
 func GetKey() string {
-	return "hello world s"
+	return "hello world"
 }

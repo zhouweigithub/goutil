@@ -1,5 +1,5 @@
-package goutil
+package main
 
-func GetKey() string {
-	return "hello world"
+func main() {
+
 }

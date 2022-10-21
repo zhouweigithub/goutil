@@ -1,16 +1,17 @@
 package baseDAL
 
 import (
-	mysql "database/sql"
+	"database/sql"
 	"log"
 
 	logutil "github.com/zhouweigithub/goutil/logUtil"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type DbQuery struct {
-	db               *mysql.DB
+	db               *sql.DB
 	sqlType          string
 	connectionString string
 }
@@ -31,7 +32,7 @@ func (p *DbQuery) New(dbType string, connString string) *DbQuery {
 func (p *DbQuery) OpenDB() {
 	if p.db == nil || p.db.Stats().OpenConnections == 0 {
 		var err error
-		p.db, err = mysql.Open(p.sqlType, p.connectionString)
+		p.db, err = sql.Open(p.sqlType, p.connectionString)
 		if err != nil {
 			log.Println("open database error: ", err.Error())
 			logutil.Error(err.Error())
@@ -63,7 +64,7 @@ func (p *DbQuery) ExeNonQuery(sql string) int64 {
 }
 
 //需要手动关闭数据库连接
-func (p *DbQuery) Query(sql string) *mysql.Rows {
+func (p *DbQuery) Query(sql string) *sql.Rows {
 	rows, err := p.db.Query(sql)
 	if err != nil {
 		errMst := "数据库操作异常！sql: " + sql + "\r\n" + err.Error()
@@ -75,7 +76,7 @@ func (p *DbQuery) Query(sql string) *mysql.Rows {
 }
 
 //需要手动关闭数据库连接
-func (p *DbQuery) QueryRow(sql string) *mysql.Row {
+func (p *DbQuery) QueryRow(sql string) *sql.Row {
 	row := p.db.QueryRow(sql)
 	return row
 }

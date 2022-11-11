@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"runtime/debug"
 
-	 "github.com/zhouweigithub/goutil/logutil"
+	"github.com/zhouweigithub/goutil/logutil"
 )
 
 func CatchError() {

@@ -120,3 +120,9 @@ func getFilesWithRelativePaths(folder string, baseFolder string, isLoop bool) []
 	}
 	return filePaths
 }
+
+// 删除文件或者目录
+func DeleteFileOrFolder(path string) error {
+	err := os.Remove(path)
+	return err
+}

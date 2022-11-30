@@ -17,16 +17,19 @@ var configFile []byte
 
 func init() {
 	var err error
-	var configFilePath = filepath.Join(getCurrentAbPathByCaller(), "config.yaml")
+	var configFilePath = "config.yaml"
 	configFile, err = ioutil.ReadFile(configFilePath)
 	if err != nil {
 		logutil.Fatal("Read config yaml file err %v" + err.Error())
 	}
 }
 
-func ToModel() (e interface{}, err error) {
-	err = yaml.Unmarshal(configFile, &e)
-	return e, err
+// 将配置文件参数转换为模型
+//
+//	配置文件为根目录下config.yaml
+//	modelReffrence:模型的地址
+func ToModel(modelReffrence interface{}) error {
+	return yaml.Unmarshal(configFile, modelReffrence)
 }
 
 // 获取程序运行路径（go build）
@@ -46,14 +49,4 @@ func getCurrentAbPathByCaller() string {
 		abPath = path.Dir(filename)
 	}
 	return abPath
-}
-
-// Exists 判断所给路径文件/文件夹是否存在
-func Exists(path string) bool {
-	// os.Stat获取文件信息
-	_, err := os.Stat(path)
-	if err != nil {
-		return os.IsExist(err)
-	}
-	return true
 }

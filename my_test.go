@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	configutil "github.com/zhouweigithub/goutil/configUtil"
+	"github.com/zhouweigithub/goutil/queryutil"
 	"github.com/zhouweigithub/goutil/threadutil"
 )
 
@@ -30,4 +31,38 @@ func TestThreading(t *testing.T) {
 	})
 	fmt.Println(sources)
 	fmt.Println("over")
+}
+
+type Model struct {
+	Name string
+	Age  int
+}
+
+var sources = []Model{}
+
+func init() {
+	sources = append(sources, Model{Name: "liming1", Age: 10})
+	sources = append(sources, Model{Name: "liming2", Age: 11})
+	sources = append(sources, Model{Name: "liming3", Age: 12})
+	sources = append(sources, Model{Name: "liming4", Age: 13})
+	sources = append(sources, Model{Name: "liming5", Age: 14})
+	sources = append(sources, Model{Name: "liming6", Age: 15})
+	sources = append(sources, Model{Name: "liming7", Age: 16})
+}
+
+func TestFilter(t *testing.T) {
+	// var a = queryutil.First(sources, func(item *Model) bool { return item.Age > 13 })
+	// a.Name = "hello world"
+	// fmt.Println(*a)
+	// fmt.Println(sources[4])
+	// var b = queryutil.Last(sources, func(item *Model) bool { return item.Name == "liming5" })
+	// fmt.Println(*b)
+	// var c = queryutil.Contains(sources, func(item *Model) bool { return item.Age == 18 })
+	// fmt.Println(c)
+	var d = queryutil.Where(sources, func(item *Model) bool { return item.Age < 15 })
+	d[0].Name = "hello world"
+	fmt.Println(*d[0])
+	fmt.Println(sources[0])
+	// var e = queryutil.Select(sources, func(item *Model) string { return item.Name })
+	// fmt.Println(e)
 }

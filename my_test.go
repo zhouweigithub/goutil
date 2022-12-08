@@ -45,7 +45,7 @@ func init() {
 	sources = append(sources, Model{Name: "liming2", Age: 11})
 	sources = append(sources, Model{Name: "liming3", Age: 12})
 	sources = append(sources, Model{Name: "liming4", Age: 13})
-	sources = append(sources, Model{Name: "liming5", Age: 14})
+	sources = append(sources, Model{Name: "liming5", Age: 11})
 	sources = append(sources, Model{Name: "liming6", Age: 15})
 	sources = append(sources, Model{Name: "liming7", Age: 16})
 }
@@ -59,10 +59,15 @@ func TestFilter(t *testing.T) {
 	// fmt.Println(*b)
 	// var c = queryutil.Contains(sources, func(item *Model) bool { return item.Age == 18 })
 	// fmt.Println(c)
-	var d = queryutil.Where(sources, func(item *Model) bool { return item.Age < 15 })
-	d[0].Name = "hello world"
-	fmt.Println(*d[0])
-	fmt.Println(sources[0])
+	// var d = queryutil.Where(sources, func(item *Model) bool { return item.Age < 15 })
+	// d[0].Name = "hello world"
+	// fmt.Println(*d[0])
+	// fmt.Println(sources[0])
 	// var e = queryutil.Select(sources, func(item *Model) string { return item.Name })
 	// fmt.Println(e)
+
+	// var x = queryutil.Distinct(sources, func(item *Model) int { return item.Age })
+	// fmt.Println(x)
+
+	queryutil.OrderBy(sources, func(i, j int) bool { return sources[i].Age < sources[j].Age })
 }

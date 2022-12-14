@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	configutil "github.com/zhouweigithub/goutil/configUtil"
+	"github.com/zhouweigithub/goutil/encryptutil"
 	"github.com/zhouweigithub/goutil/queryutil"
 	"github.com/zhouweigithub/goutil/randutil"
 	"github.com/zhouweigithub/goutil/stringutil"
@@ -115,4 +116,11 @@ func TestSliceAppend(t *testing.T) {
 	b := append(a, 4)
 	fmt.Println(len(a), cap(a))
 	fmt.Println(len(b), cap(b))
+}
+
+func TestEncp(t *testing.T) {
+	var a = encryptutil.Base64Encodeing("hello world")
+	fmt.Println(a)
+	var b, _ = encryptutil.Base64Decodeing(a)
+	fmt.Println(b)
 }

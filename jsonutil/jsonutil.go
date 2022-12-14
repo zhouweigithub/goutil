@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 )
 
+// 模型转换为JSON字符串
 func ToJson(obj interface{}) (string, error) {
 	bytes, err := json.Marshal(obj)
 	if err != nil {
@@ -14,6 +15,7 @@ func ToJson(obj interface{}) (string, error) {
 	}
 }
 
+// JSON字符串转换为模型
 func ToModel(jsonString string, model interface{}) error {
 	err := json.Unmarshal([]byte(jsonString), &model)
 	if err != nil {

@@ -5,19 +5,32 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/zhouweigithub/goutil/sliceutil"
 )
 
+// 数字字符集
 var numbers = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+
+// 大写字母字符集
 var upChars = []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+
+// 小写字母字符集
 var lowChars = []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+
+// 大小写字母字符集
 var upAndLowChars []string
+
+// 大小写字母与数字字符集
 var allLetters []string
 
 func init() {
-	upAndLowChars = append(sliceutil.CopySlice(upChars), lowChars...)
-	allLetters = append(sliceutil.CopySlice(upAndLowChars), numbers...)
+	upAndLowChars = make([]string, 0, len(upChars)+len(lowChars))
+	upAndLowChars = append(upChars, lowChars...)
+
+	allLetters = make([]string, 0, len(upChars)+len(lowChars)+len(numbers)*3)
+	allLetters = append(upAndLowChars, numbers...)
+	//多添加点数字，不然随机数中数字太少
+	allLetters = append(allLetters, numbers...)
+	allLetters = append(allLetters, numbers...)
 }
 
 // GetRandInts 生成随机数,区间为[min,max]

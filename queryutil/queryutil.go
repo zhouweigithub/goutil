@@ -121,30 +121,31 @@ func Count[T any](datas []T, filter func(item *T) bool) int {
 
 // 删除满足条件的所有元素
 func Remove[T any](datas []T, filter func(item *T) bool) []T {
+	if len(datas) == 0 {
+		return datas
+	}
+	var validIndex = 0
+	for i := range datas {
+		if !filter(&datas[i]) {
+			datas[validIndex] = datas[i]
+			validIndex++
+		}
+	}
+	return datas[:validIndex]
+}
+
+// 获取去重后的元素集
+func Distinct[T comparable](datas []T) []T {
 	var result = []T{}
 	if len(datas) == 0 {
 		return result
 	}
+	var distinctFieldValues []T
 	for i := range datas {
-		if !filter(&datas[i]) {
-			result = append(result, datas[i])
-		}
-	}
-	return result
-}
-
-// 根据特定字段值去重，获取去重后的元素集
-func Distinct[T any, K comparable](datas []T, filter func(item *T) K) []*T {
-	var result = []*T{}
-	if len(datas) == 0 {
-		return result
-	}
-	var distinctFieldValues []K
-	for i := range datas {
-		var v = filter(&datas[i])
-		if !Contains(distinctFieldValues, func(subItem *K) bool { return *subItem == v }) {
+		var v = datas[i]
+		if !Contains(distinctFieldValues, func(subItem *T) bool { return *subItem == v }) {
 			distinctFieldValues = append(distinctFieldValues, v)
-			result = append(result, &datas[i])
+			result = append(result, datas[i])
 		}
 	}
 	return result

@@ -6,6 +6,8 @@ import (
 
 	configutil "github.com/zhouweigithub/goutil/configUtil"
 	"github.com/zhouweigithub/goutil/queryutil"
+	"github.com/zhouweigithub/goutil/randutil"
+	"github.com/zhouweigithub/goutil/stringutil"
 	"github.com/zhouweigithub/goutil/threadutil"
 )
 
@@ -42,13 +44,15 @@ var sources = []Model{}
 
 func init() {
 	sources = append(sources, Model{Name: "liming1", Age: 10})
-	sources = append(sources, Model{Name: "liming2", Age: 11})
 	sources = append(sources, Model{Name: "liming3", Age: 12})
 	sources = append(sources, Model{Name: "liming4", Age: 13})
 	sources = append(sources, Model{Name: "liming5", Age: 11})
 	sources = append(sources, Model{Name: "liming6", Age: 15})
 	sources = append(sources, Model{Name: "liming7", Age: 16})
+	sources = append(sources, Model{Name: "liming1", Age: 10})
 }
+
+var ints = []int{1, 4, 2, 1, 5, 3, 0, 4}
 
 func TestFilter(t *testing.T) {
 	// var a = queryutil.First(sources, func(item *Model) bool { return item.Age > 13 })
@@ -69,5 +73,46 @@ func TestFilter(t *testing.T) {
 	// var x = queryutil.Distinct(sources, func(item *Model) int { return item.Age })
 	// fmt.Println(x)
 
-	queryutil.OrderBy(sources, func(i, j int) bool { return sources[i].Age < sources[j].Age })
+	//queryutil.OrderBy(sources, func(i, j int) bool { return sources[i].Age < sources[j].Age })
+
+	//var a = queryutil.Distinct(sources)
+	var a = queryutil.Remove(sources, func(item *Model) bool { return item.Age == 10 })
+	fmt.Println(a)
+}
+
+func TestSimilarity(t *testing.T) {
+	fmt.Println(stringutil.Similarity("hello world", "hello owrdl"))
+}
+
+func TestGetRandChar(t *testing.T) {
+	fmt.Println(randutil.GetRandChars(20))
+	fmt.Println(randutil.GetRandChars(20))
+	fmt.Println(randutil.GetRandChars(20))
+	fmt.Println(randutil.GetRandChars(20))
+	fmt.Println(randutil.GetRandChars(20))
+}
+
+func TestSliceAppend(t *testing.T) {
+	// s := []int{5}
+	// s = append(s, 7)
+	// fmt.Println("cap(s) =", cap(s), "ptr(s) =", &s[0])
+	// fmt.Println(s)
+	// s = append(s, 9)
+	// fmt.Println("cap(s) =", cap(s), "ptr(s) =", &s[0])
+	// fmt.Println(s)
+	// x := append(s, 11)
+	// fmt.Println("cap(s) =", cap(s), "ptr(s) =", &s[0], "ptr(x) =", &x[0])
+	// fmt.Println(s)
+	// fmt.Println(x)
+	// y := append(s, 12)
+	// fmt.Println("cap(s) =", cap(s), "ptr(s) =", &s[0], "ptr(y) =", &y[0])
+	// fmt.Println(s)
+	// fmt.Println(x)
+	// fmt.Println(y)
+
+	a := []int{1, 2, 3}
+	fmt.Println(len(a), cap(a))
+	b := append(a, 4)
+	fmt.Println(len(a), cap(a))
+	fmt.Println(len(b), cap(b))
 }

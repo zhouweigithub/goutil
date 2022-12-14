@@ -20,7 +20,7 @@ type MailHelper struct {
 	ServerPort int
 	// FromEmail　发件人邮箱地址
 	FromEmail string
-	// FromPasswd 发件人邮箱密码（注意，这里是明文形式），TODO：如果设置成密文？
+	// FromPasswd 发件人邮箱密码（注意，这里是明文形式）
 	FromPasswd string
 
 	msg    *gomail.Message

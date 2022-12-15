@@ -119,8 +119,16 @@ func TestSliceAppend(t *testing.T) {
 }
 
 func TestEncp(t *testing.T) {
-	var a = encryptutil.Base64Encodeing("hello world")
+	// var a, b = encryptutil.AESEncodeStr("123456", "hello123hello123")
+	// fmt.Println(a, b)
+	// fmt.Println(encryptutil.AESDecodeStr(a, "hello123hello123"))
+	// fmt.Println(encryptutil.HMAC_SHA1("HELLO", "WORLD"))
+	// fmt.Println(encryptutil.HMAC_SHA256("HELLO", "WORLD"))
+	// fmt.Println(encryptutil.HMAC_SHA512("HELLO", "WORLD"))
+	// fmt.Println(encryptutil.SHA256Str("HELLO"))
+	// fmt.Println(encryptutil.SHA512Str("HELLO"))
+
+	var a = encryptutil.ToUnicode("支持ASCII编码与字符的相互转换。ABCD,./!")
 	fmt.Println(a)
-	var b, _ = encryptutil.Base64Decodeing(a)
-	fmt.Println(b)
+	fmt.Println(encryptutil.FromUnicode(a))
 }

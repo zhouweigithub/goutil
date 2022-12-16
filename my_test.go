@@ -157,7 +157,7 @@ func TestSlice(t *testing.T) {
 	// a2[1].Name = "where"
 }
 func TestZip(t *testing.T) {
-	//fmt.Println(compressutil.Zip("zip.zip", "goutil.exe", "git_tag.txt"))
+	fmt.Println(compressutil.Zip("zip.zip", "goutil.exe", "git_tag.txt"))
 	compressutil.Unzip("zip.zip", "zipfolder")
 }
 
@@ -167,5 +167,4 @@ func TestGuid(t *testing.T) {
 		// fmt.Println(a.Hex())
 		fmt.Println(guidutil.NewGUID())
 	}
-
 }

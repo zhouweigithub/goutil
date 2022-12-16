@@ -6,8 +6,8 @@ import (
 
 	configutil "github.com/zhouweigithub/goutil/configUtil"
 	"github.com/zhouweigithub/goutil/encryptutil"
-	"github.com/zhouweigithub/goutil/queryutil"
 	"github.com/zhouweigithub/goutil/randutil"
+	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
 	"github.com/zhouweigithub/goutil/stringutil"
 	"github.com/zhouweigithub/goutil/threadutil"
 )
@@ -56,28 +56,28 @@ func init() {
 var ints = []int{1, 4, 2, 1, 5, 3, 0, 4}
 
 func TestFilter(t *testing.T) {
-	// var a = queryutil.First(sources, func(item *Model) bool { return item.Age > 13 })
+	// var a = sliceutil.First(sources, func(item *Model) bool { return item.Age > 13 })
 	// a.Name = "hello world"
 	// fmt.Println(*a)
 	// fmt.Println(sources[4])
-	// var b = queryutil.Last(sources, func(item *Model) bool { return item.Name == "liming5" })
+	// var b = sliceutil.Last(sources, func(item *Model) bool { return item.Name == "liming5" })
 	// fmt.Println(*b)
-	// var c = queryutil.Contains(sources, func(item *Model) bool { return item.Age == 18 })
+	// var c = sliceutil.Contains(sources, func(item *Model) bool { return item.Age == 18 })
 	// fmt.Println(c)
-	// var d = queryutil.Where(sources, func(item *Model) bool { return item.Age < 15 })
+	// var d = sliceutil.Where(sources, func(item *Model) bool { return item.Age < 15 })
 	// d[0].Name = "hello world"
 	// fmt.Println(*d[0])
 	// fmt.Println(sources[0])
-	// var e = queryutil.Select(sources, func(item *Model) string { return item.Name })
+	// var e = sliceutil.Select(sources, func(item *Model) string { return item.Name })
 	// fmt.Println(e)
 
-	// var x = queryutil.Distinct(sources, func(item *Model) int { return item.Age })
+	// var x = sliceutil.Distinct(sources, func(item *Model) int { return item.Age })
 	// fmt.Println(x)
 
-	//queryutil.OrderBy(sources, func(i, j int) bool { return sources[i].Age < sources[j].Age })
+	//sliceutil.OrderBy(sources, func(i, j int) bool { return sources[i].Age < sources[j].Age })
 
-	//var a = queryutil.Distinct(sources)
-	var a = queryutil.Remove(sources, func(item *Model) bool { return item.Age == 10 })
+	//var a = sliceutil.Distinct(sources)
+	var a = sliceutil.Remove(sources, func(item *Model) bool { return item.Age == 10 })
 	fmt.Println(a)
 }
 
@@ -140,16 +140,16 @@ func TestSlice(t *testing.T) {
 	// fmt.Println(a, b)
 	var a = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
 	// var b = []int{3, 5, 1, 9, 2, 100}
-	//fmt.Println(queryutil.Exclude(a, b))
-	// var c = queryutil.Union(a, b)
-	// var d = queryutil.Distinct(c)
+	//fmt.Println(sliceutil.Exclude(a, b))
+	// var c = sliceutil.Union(a, b)
+	// var d = sliceutil.Distinct(c)
 	// fmt.Println(c, d)
 
-	queryutil.ForEach(a, func(item *int) { *item = *item + 10 })
+	sliceutil.ForEach(a, func(item *int) { *item = *item + 10 })
 	fmt.Println(a)
 
-	// var a1 = queryutil.Where(sources, func(item *Model) bool { return item.Age > 13 })
-	// var a2 = queryutil.WhereReference(sources, func(item *Model) bool { return item.Age > 13 })
+	// var a1 = sliceutil.Where(sources, func(item *Model) bool { return item.Age > 13 })
+	// var a2 = sliceutil.WhereReference(sources, func(item *Model) bool { return item.Age > 13 })
 
 	// a1[0].Name = "chen"
 	// a2[1].Name = "where"

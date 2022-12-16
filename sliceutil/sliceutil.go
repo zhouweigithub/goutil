@@ -1,64 +1,199 @@
 package sliceutil
 
-// FindSlice 查找切片内容
-func FindSlice(slice []string, val string) (int, bool) {
-	for i := range slice {
-		if slice[i] == val {
-			return i, true
+import "sort"
+
+// 查找第一个满足条件的元素，无匹配项则返回nil
+func First[T any](datas []T, filter func(item *T) bool) *T {
+	if len(datas) == 0 {
+		return nil
+	}
+	for i := range datas {
+		if filter(&datas[i]) {
+			return &datas[i]
 		}
 	}
-	return -1, false
+	return nil
 }
 
-// ExcludeSlice 排除部分元素
-func ExcludeSlice(slice []string, excludes []string) []string {
-	var newSlice = make([]string, 0)
-	for i := range slice {
-		_, isFind := FindSlice(excludes, slice[i])
-		if !isFind {
-			newSlice = append(newSlice, slice[i])
+// 查找最后一个满足条件的元素，无匹配项则返回nil
+func Last[T any](datas []T, filter func(item *T) bool) *T {
+	if len(datas) == 0 {
+		return nil
+	}
+	for i := len(datas) - 1; i >= 0; i-- {
+		if filter(&datas[i]) {
+			return &datas[i]
 		}
 	}
-
-	return newSlice
+	return nil
 }
 
-// CopySlice 复制切片内容
-func CopySlice(slice []string) []string {
-	var newSlice = make([]string, len(slice))
-	copy(newSlice, slice)
-	return newSlice
-}
-
-// DeleteSlice 删除切片指定元素，会修改原切片a
-func DeleteSlice(source []string, elem string) []string {
-	j := 0
-	for i := range source {
-		if source[i] != elem {
-			source[j] = source[i]
-			j++
+// 查找所有满足条件的元素副本，无匹配项则返回空切片
+func Where[T any](datas []T, filter func(item *T) bool) []T {
+	var result = make([]T, 0, len(datas))
+	if len(datas) == 0 {
+		return nil
+	}
+	for i := range datas {
+		if filter(&datas[i]) {
+			result = append(result, datas[i])
 		}
 	}
-	return source[:j]
+	return result
 }
 
-// DeleteSlice2 删除切片指定元素，不会修改原切片a
-func DeleteSlice2(source []string, elem string) []string {
-	tmp := make([]string, 0, len(source))
-	for i := range source {
-		if source[i] != elem {
-			tmp = append(tmp, source[i])
+// 查找所有满足条件的元素的引用，无匹配项则返回空切片
+func WhereReference[T any](datas []T, filter func(item *T) bool) []*T {
+	var result = make([]*T, 0, len(datas))
+	if len(datas) == 0 {
+		return nil
+	}
+	for i := range datas {
+		if filter(&datas[i]) {
+			result = append(result, &datas[i])
 		}
 	}
-	return tmp
+	return result
 }
 
-// GetDistinct 获取去重后的新切片
-func GetDistinct(slice []string) []string {
-	var result []string
-	for i := range slice {
-		if _, isExist := FindSlice(result, slice[i]); !isExist {
-			result = append(result, slice[i])
+// 检查是否存在满足条件的元素
+func Contains[T any](datas []T, filter func(item *T) bool) bool {
+	if len(datas) == 0 {
+		return false
+	}
+	for i := range datas {
+		if filter(&datas[i]) {
+			return true
+		}
+	}
+	return false
+}
+
+// 过滤部分字段
+func Select[T any, K any](datas []T, filter func(item *T) K) []K {
+	var result = []K{}
+	if len(datas) == 0 {
+		return nil
+	}
+	for i := range datas {
+		result = append(result, filter(&datas[i]))
+	}
+	return result
+}
+
+// 查找第一个满足条件元素的索引
+func IndexOf[T any](datas []T, filter func(item *T) bool) int {
+	if len(datas) == 0 {
+		return -1
+	}
+	for i := range datas {
+		if filter(&datas[i]) {
+			return i
+		}
+	}
+	return -1
+}
+
+// 查找最后一个满足条件元素的索引
+func LastIndexOf[T any](datas []T, filter func(item *T) bool) int {
+	if len(datas) == 0 {
+		return -1
+	}
+	for i := len(datas) - 1; i >= 0; i-- {
+		if filter(&datas[i]) {
+			return i
+		}
+	}
+	return -1
+}
+
+// 遍历元素，并执行指定操作
+func ForEach[T any](datas []T, action func(item *T)) {
+	if len(datas) == 0 {
+		return
+	}
+	for i := range datas {
+		action(&datas[i])
+	}
+}
+
+// 查找满足条件元素的数量
+func Count[T any](datas []T, filter func(item *T) bool) int {
+	if len(datas) == 0 {
+		return 0
+	}
+	var count = 0
+	for i := range datas {
+		if filter(&datas[i]) {
+			count++
+		}
+	}
+	return count
+}
+
+// 删除满足条件的所有元素
+func Remove[T any](datas []T, filter func(item *T) bool) []T {
+	if len(datas) == 0 {
+		return datas
+	}
+	var result = []T{}
+	for i := range datas {
+		if !filter(&datas[i]) {
+			result = append(result, datas[i])
+		}
+	}
+	return result
+}
+
+// 获取去重后的元素集
+func Distinct[T comparable](datas []T) []T {
+	var result = []T{}
+	if len(datas) == 0 {
+		return result
+	}
+	var distinctFieldValues []T
+	for i := range datas {
+		var v = datas[i]
+		if !Contains(distinctFieldValues, func(subItem *T) bool { return *subItem == v }) {
+			distinctFieldValues = append(distinctFieldValues, v)
+			result = append(result, datas[i])
+		}
+	}
+	return result
+}
+
+// 自定义排序
+func OrderBy[T any](datas []T, filter func(i, j int) bool) {
+	if len(datas) == 0 {
+		return
+	}
+	sort.Slice(datas, filter)
+}
+
+// 复制切片
+func Copy[T any](datas []T) []T {
+	var result = make([]T, len(datas))
+	copy(result, datas)
+	return result
+}
+
+// 合并切片
+func Union[T any](datas1 []T, datas2 []T) []T {
+	return append(datas1, datas2...)
+}
+
+// 排除切片
+func Exclude[T comparable](datas []T, excludeDatas []T) []T {
+	if len(datas) == 0 {
+		return []T{}
+	}
+	if len(excludeDatas) == 0 {
+		return datas
+	}
+	var result = []T{}
+	for i := range datas {
+		if !Contains(excludeDatas, func(item *T) bool { return *item == datas[i] }) {
+			result = append(result, datas[i])
 		}
 	}
 	return result

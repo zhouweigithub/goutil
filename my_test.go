@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/zhouweigithub/goutil/compressutil"
 	configutil "github.com/zhouweigithub/goutil/configUtil"
 	"github.com/zhouweigithub/goutil/encryptutil"
+	"github.com/zhouweigithub/goutil/guidutil"
 	"github.com/zhouweigithub/goutil/randutil"
 	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
 	"github.com/zhouweigithub/goutil/stringutil"
@@ -153,4 +155,17 @@ func TestSlice(t *testing.T) {
 
 	// a1[0].Name = "chen"
 	// a2[1].Name = "where"
+}
+func TestZip(t *testing.T) {
+	//fmt.Println(compressutil.Zip("zip.zip", "goutil.exe", "git_tag.txt"))
+	compressutil.Unzip("zip.zip", "zipfolder")
+}
+
+func TestGuid(t *testing.T) {
+	for i := 0; i < 5; i++ {
+		// var a = guidutil.GetGUID()
+		// fmt.Println(a.Hex())
+		fmt.Println(guidutil.NewGUID())
+	}
+
 }

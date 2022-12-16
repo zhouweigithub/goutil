@@ -30,8 +30,22 @@ func Last[T any](datas []T, filter func(item *T) bool) *T {
 	return nil
 }
 
-// 查找所有满足条件的元素，无匹配项则返回空切片
-func Where[T any](datas []T, filter func(item *T) bool) []*T {
+// 查找所有满足条件的元素副本，无匹配项则返回空切片
+func Where[T any](datas []T, filter func(item *T) bool) []T {
+	var result = make([]T, 0, len(datas))
+	if len(datas) == 0 {
+		return nil
+	}
+	for i := range datas {
+		if filter(&datas[i]) {
+			result = append(result, datas[i])
+		}
+	}
+	return result
+}
+
+// 查找所有满足条件的元素的引用，无匹配项则返回空切片
+func WhereReference[T any](datas []T, filter func(item *T) bool) []*T {
 	var result = make([]*T, 0, len(datas))
 	if len(datas) == 0 {
 		return nil
@@ -124,14 +138,13 @@ func Remove[T any](datas []T, filter func(item *T) bool) []T {
 	if len(datas) == 0 {
 		return datas
 	}
-	var validIndex = 0
+	var result = []T{}
 	for i := range datas {
 		if !filter(&datas[i]) {
-			datas[validIndex] = datas[i]
-			validIndex++
+			result = append(result, datas[i])
 		}
 	}
-	return datas[:validIndex]
+	return result
 }
 
 // 获取去重后的元素集
@@ -157,4 +170,33 @@ func OrderBy[T any](datas []T, filter func(i, j int) bool) {
 		return
 	}
 	sort.Slice(datas, filter)
+}
+
+// 复制切片
+func Copy[T any](datas []T) []T {
+	var result = make([]T, len(datas))
+	copy(result, datas)
+	return result
+}
+
+// 合并切片
+func Union[T any](datas1 []T, datas2 []T) []T {
+	return append(datas1, datas2...)
+}
+
+// 排除切片
+func Exclude[T comparable](datas []T, excludeDatas []T) []T {
+	if len(datas) == 0 {
+		return []T{}
+	}
+	if len(excludeDatas) == 0 {
+		return datas
+	}
+	var result = []T{}
+	for i := range datas {
+		if !Contains(excludeDatas, func(item *T) bool { return *item == datas[i] }) {
+			result = append(result, datas[i])
+		}
+	}
+	return result
 }

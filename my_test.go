@@ -132,3 +132,25 @@ func TestEncp(t *testing.T) {
 	fmt.Println(a)
 	fmt.Println(encryptutil.FromUnicode(a))
 }
+
+func TestSlice(t *testing.T) {
+	// var a = []int{} // !=nil
+	// var b []int     // ==nil
+	// fmt.Println(a == nil, b == nil)
+	// fmt.Println(a, b)
+	var a = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
+	// var b = []int{3, 5, 1, 9, 2, 100}
+	//fmt.Println(queryutil.Exclude(a, b))
+	// var c = queryutil.Union(a, b)
+	// var d = queryutil.Distinct(c)
+	// fmt.Println(c, d)
+
+	queryutil.ForEach(a, func(item *int) { *item = *item + 10 })
+	fmt.Println(a)
+
+	// var a1 = queryutil.Where(sources, func(item *Model) bool { return item.Age > 13 })
+	// var a2 = queryutil.WhereReference(sources, func(item *Model) bool { return item.Age > 13 })
+
+	// a1[0].Name = "chen"
+	// a2[1].Name = "where"
+}

@@ -7,6 +7,7 @@ import (
 	"github.com/zhouweigithub/goutil/compressutil"
 	configutil "github.com/zhouweigithub/goutil/configUtil"
 	"github.com/zhouweigithub/goutil/encryptutil"
+	"github.com/zhouweigithub/goutil/excelutil"
 	"github.com/zhouweigithub/goutil/guidutil"
 	"github.com/zhouweigithub/goutil/qrcodutil"
 	"github.com/zhouweigithub/goutil/randutil"
@@ -173,4 +174,12 @@ func TestGuid(t *testing.T) {
 func TestQrcode(t *testing.T) {
 	fmt.Println(qrcodutil.CreatePngFile("http://promotion.79yougame.com/char.html", 200, "pngfile.png"))
 	//qrcodutil.CreateQrcodePngBytes()
+}
+
+func TestExcel(t *testing.T) {
+	var a, err = excelutil.ReadFromExcel(`C:\Users\juscc\Desktop\hello.xlsx`, "")
+	fmt.Println(a)
+	fmt.Println(err)
+
+	fmt.Println(excelutil.WriteToExcel(`C:\Users\juscc\Desktop\hello222.xlsx`, a, "eeeee"))
 }

@@ -12,7 +12,7 @@ import (
 //	content:  content
 //	size:     size is both the image width and height in pixels.
 //	filename: saved filename(.png)
-func CreateQrcodeFile(content string, size int, filename string) error {
+func CreatePngFile(content string, size int, filename string) error {
 	return qrcode.WriteFile(content, qrcode.Medium, size, filename)
 }
 
@@ -20,7 +20,7 @@ func CreateQrcodeFile(content string, size int, filename string) error {
 //
 //	content:  content
 //	size:     size is both the image width and height in pixels.
-func CreateQrcodeImage(content string, size int) (image.Image, error) {
+func CreateImage(content string, size int) (image.Image, error) {
 	var q, err = qrcode.New(content, qrcode.Medium)
 	if err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func CreateQrcodeImage(content string, size int) (image.Image, error) {
 //
 //	content:  content
 //	size:     size is both the image width and height in pixels.
-func CreateQrcodePngBytes(content string, size int) ([]byte, error) {
+func CreatePngBytes(content string, size int) ([]byte, error) {
 	var q, err = qrcode.New(content, qrcode.Medium)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func CreateQrcodePngBytes(content string, size int) ([]byte, error) {
 //	content:  content
 //	size:     size is both the image width and height in pixels.
 //	out:      io.Writer
-func CreateQrcodePngIowriter(content string, size int, out io.Writer) error {
+func CreatePngIowriter(content string, size int, out io.Writer) error {
 	var q, err = qrcode.New(content, qrcode.Medium)
 	if err != nil {
 		return err

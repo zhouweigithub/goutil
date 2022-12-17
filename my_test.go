@@ -171,6 +171,6 @@ func TestGuid(t *testing.T) {
 }
 
 func TestQrcode(t *testing.T) {
-	fmt.Println(qrcodutil.CreateQrcodeFile("http://promotion.79yougame.com/char.html", 200, "pngfile.png"))
+	fmt.Println(qrcodutil.CreatePngFile("http://promotion.79yougame.com/char.html", 200, "pngfile.png"))
 	//qrcodutil.CreateQrcodePngBytes()
 }

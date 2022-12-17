@@ -178,8 +178,8 @@ func TestQrcode(t *testing.T) {
 
 func TestExcel(t *testing.T) {
 	var a, err = excelutil.ReadFromExcel(`C:\Users\juscc\Desktop\hello.xlsx`, "")
-	fmt.Println(a)
+	//fmt.Println(a)
 	fmt.Println(err)
 
-	fmt.Println(excelutil.WriteToExcel(`C:\Users\juscc\Desktop\hello222.xlsx`, a, "eeeee"))
+	fmt.Println(excelutil.WriteToExcel(`C:\Users\juscc\Desktop\777.xlsx`, a, "hello"))
 }

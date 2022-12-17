@@ -2,7 +2,6 @@ package excelutil
 
 import (
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 
@@ -68,84 +67,56 @@ func getExcelTitle(rows []*xlsx.Row, isFirstRowTitle bool) map[int]string {
 	}
 }
 
-// filename：指定文件路径名称，例如："D:/aa.xlsx"
-// tablename: （可变参数）指定Excel中的某个表格名，不传默认第一个表格
-func ReadFromExcel(filename string, tablename string) ([][]string, error) {
+// 读取EXCEL内容
+//
+//	filename：指定文件路径名称，例如："D:/aa.xlsx"
+//	sheetName: sheet名称，不传默认第一个
+func ReadFromExcel(filename string, sheetName string) ([][]string, error) {
 	f, err := excelize.OpenFile(filename) //
 	if err != nil {
 		return nil, err
 	}
+	defer f.Close()
 	firstSheet := ""
-	if len(tablename) > 0 {
-		firstSheet = tablename
+	if len(sheetName) > 0 {
+		firstSheet = sheetName
 	} else {
 		firstSheet = f.GetSheetName(0)
 	}
 	rows, err := f.GetRows(firstSheet)
+	f.Close()
 	return rows, err
 }
 
-// filename：指定文件路径名称，例如："D:/aa.xlsx"
-// value：内容
-// tableName: （可变参数）指定Excel中的某个表格名，不传默认第一个表格
-func WriteToExcel(filename string, value [][]string, tableName string) error {
+// 往EXCEL写入内容
+//
+//	filename：指定文件路径名称，例如："D:/aa.xlsx"
+//	value：内容
+//	sheetName: sheet名称，不传默认第一个
+func WriteToExcel(filename string, value [][]string, sheetName string) error {
 	f := excelize.NewFile()
-	//默认Excel每个页面保存500条数据，超出500条就新建一个页面保存，page为每页最多保存条数
-	page := 500
+	defer f.Close()
 	//默认保存开始名称
-	firstSheet := "Sheet"
-	if len(tableName) > 0 {
-		firstSheet = tableName
+	firstSheet := "Sheet1"
+	if len(sheetName) > 0 {
+		firstSheet = sheetName
 	}
-	// Create a new sheet.
-	sheetRow := int(math.Floor(float64(len(value)/page)) + 1)
-	for j := 0; j < sheetRow; j++ {
-		index := f.NewSheet(firstSheet + gconv.String(j+1))
-		if j > 0 {
-			for k, v := range value[0] { //列
-				path, err := excelize.ColumnNumberToName(k + 1)
-				if err != nil {
-					return err
-				}
-				err = f.SetCellValue(firstSheet+gconv.String(j+1), path+gconv.String(1), v)
-				if err != nil {
-					return err
-				}
+
+	index := f.NewSheet(firstSheet)
+	for i := 0; i < len(value); i++ {
+		for k, v := range value[i] { //列
+			path, err := excelize.ColumnNumberToName(k + 1)
+			if err != nil {
+				return err
 			}
-			for i := 0 + j*page; i < (j+1)*page; i++ { //行
-				if len(value) < i+1 {
-					break
-				}
-				for k, v := range value[i] { //列
-					path, err := excelize.ColumnNumberToName(k + 1)
-					if err != nil {
-						return err
-					}
-					err = f.SetCellValue(firstSheet+gconv.String(j+1), path+gconv.String(i+2-j*page), v)
-					if err != nil {
-						return err
-					}
-				}
-			}
-		} else {
-			for i := 0 + j*page; i < (j+1)*page; i++ { //行
-				if len(value) < i+1 {
-					break
-				}
-				for k, v := range value[i] { //列
-					path, err := excelize.ColumnNumberToName(k + 1)
-					if err != nil {
-						return err
-					}
-					err = f.SetCellValue(firstSheet+gconv.String(j+1), path+gconv.String(i+1-j*page), v)
-					if err != nil {
-						return err
-					}
-				}
+			err = f.SetCellValue(firstSheet, path+gconv.String(i+1), v)
+			if err != nil {
+				return err
 			}
 		}
-		f.SetActiveSheet(index - 1)
 	}
+
+	f.SetActiveSheet(index - 1)
 	if err := f.SaveAs(filename); err != nil {
 		return err
 	}

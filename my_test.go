@@ -8,6 +8,7 @@ import (
 	configutil "github.com/zhouweigithub/goutil/configUtil"
 	"github.com/zhouweigithub/goutil/encryptutil"
 	"github.com/zhouweigithub/goutil/guidutil"
+	"github.com/zhouweigithub/goutil/qrcodutil"
 	"github.com/zhouweigithub/goutil/randutil"
 	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
 	"github.com/zhouweigithub/goutil/stringutil"
@@ -167,4 +168,9 @@ func TestGuid(t *testing.T) {
 		// fmt.Println(a.Hex())
 		fmt.Println(guidutil.NewGUID())
 	}
+}
+
+func TestQrcode(t *testing.T) {
+	fmt.Println(qrcodutil.CreateQrcodeFile("http://promotion.79yougame.com/char.html", 200, "pngfile.png"))
+	//qrcodutil.CreateQrcodePngBytes()
 }

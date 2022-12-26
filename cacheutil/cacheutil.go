@@ -6,7 +6,7 @@ import (
 )
 
 // 缓存管理中心
-type CacheManager struct {
+type cacheManager struct {
 	datas map[string]cacheItem
 }
 
@@ -17,14 +17,14 @@ type cacheItem struct {
 }
 
 // 创建新实例
-func New() *CacheManager {
-	var c CacheManager
+func New() *cacheManager {
+	var c cacheManager
 	c.datas = make(map[string]cacheItem)
 	return &c
 }
 
 // 获取缓存内容
-func (c *CacheManager) Get(key string) interface{} {
+func (c *cacheManager) Get(key string) interface{} {
 	if key == "" {
 		return nil
 	}
@@ -38,7 +38,7 @@ func (c *CacheManager) Get(key string) interface{} {
 }
 
 // 设置缓存内容
-func (c *CacheManager) Set(key string, value interface{}, timeDuration time.Duration) error {
+func (c *cacheManager) Set(key string, value interface{}, timeDuration time.Duration) error {
 	if key == "" {
 		return errors.New("key不能为空")
 	}
@@ -50,7 +50,7 @@ func (c *CacheManager) Set(key string, value interface{}, timeDuration time.Dura
 }
 
 // 删除缓存内容
-func (c *CacheManager) Delete(key string) bool {
+func (c *cacheManager) Delete(key string) bool {
 	if key == "" {
 		return false
 	}
@@ -60,7 +60,7 @@ func (c *CacheManager) Delete(key string) bool {
 }
 
 // 检测缓存是否存在
-func (c *CacheManager) Exists(key string) bool {
+func (c *cacheManager) Exists(key string) bool {
 	if key == "" {
 		return false
 	}

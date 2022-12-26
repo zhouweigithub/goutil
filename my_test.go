@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"testing"
+	"time"
 
+	"github.com/zhouweigithub/goutil/cacheutil"
 	"github.com/zhouweigithub/goutil/compressutil"
 	configutil "github.com/zhouweigithub/goutil/configUtil"
 	"github.com/zhouweigithub/goutil/encryptutil"
@@ -182,4 +184,14 @@ func TestExcel(t *testing.T) {
 	fmt.Println(err)
 
 	fmt.Println(excelutil.WriteToExcel(`C:\Users\juscc\Desktop\777.xlsx`, a, "hello"))
+}
+
+func TestCache(t *testing.T) {
+	var c = cacheutil.New()
+	c.Set("hello", "world", time.Second*5)
+	fmt.Println(c.Get("hello"))
+	time.Sleep(time.Second * 3)
+	fmt.Println(c.Get("hello"))
+	time.Sleep(time.Second * 3)
+	fmt.Println(c.Get("hello"))
 }

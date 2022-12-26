@@ -31,6 +31,7 @@ func (c *cacheManager) Get(key string) interface{} {
 	if value, isExists := c.datas[key]; !isExists {
 		return nil
 	} else if value.ExpireTime.Before(time.Now()) {
+		delete(c.datas, key)
 		return nil
 	} else {
 		return value.Value

@@ -16,6 +16,11 @@ type cacheItem struct {
 	ExpireTime time.Time   //缓存的过期时间
 }
 
+// 是否过期
+func (c cacheItem) IsExpired() bool {
+	return c.ExpireTime.Before(time.Now())
+}
+
 // 创建新实例
 func New() *cacheManager {
 	var c cacheManager
@@ -30,7 +35,7 @@ func (c *cacheManager) Get(key string) interface{} {
 	}
 	if value, isExists := c.datas[key]; !isExists {
 		return nil
-	} else if value.ExpireTime.Before(time.Now()) {
+	} else if value.IsExpired() {
 		delete(c.datas, key)
 		return nil
 	} else {
@@ -68,7 +73,7 @@ func (c *cacheManager) Exists(key string) bool {
 	if value, isExists := c.datas[key]; !isExists {
 		return false
 	} else {
-		if value.ExpireTime.After(time.Now()) {
+		if !value.IsExpired() {
 			return true
 		} else {
 			// 删除已过期的项

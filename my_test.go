@@ -189,9 +189,11 @@ func TestExcel(t *testing.T) {
 func TestCache(t *testing.T) {
 	var c = cacheutil.New()
 	c.Set("hello", "world", time.Second*5)
-	fmt.Println(c.Get("hello"))
+	c.Set("gogogo", "alalala", time.Second*10)
+	fmt.Println(c.Get("hello"), c.Len())
 	time.Sleep(time.Second * 3)
-	fmt.Println(c.Get("hello"))
+	c.Delete("gogogo")
+	fmt.Println(c.Get("hello"), c.Len())
 	time.Sleep(time.Second * 3)
-	fmt.Println(c.Get("hello"))
+	fmt.Println(c.Get("hello"), c.Len())
 }

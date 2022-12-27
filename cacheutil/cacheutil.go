@@ -7,13 +7,8 @@ import (
 
 // 缓存管理中心
 type cacheManager struct {
+	// 缓存数据集
 	datas map[string]cacheItem
-}
-
-// 缓存的具体内容
-type cacheItem struct {
-	Value      interface{} //缓存的值
-	ExpireTime time.Time   //缓存的过期时间
 }
 
 // 是否过期
@@ -21,8 +16,8 @@ func (c cacheItem) IsExpired() bool {
 	return c.ExpireTime.Before(time.Now())
 }
 
-// 创建新实例
-func New() *cacheManager {
+// 创建新实例（非线程安全）
+func New() cacheBase {
 	var c cacheManager
 	c.datas = make(map[string]cacheItem)
 	return &c
@@ -81,4 +76,9 @@ func (c *cacheManager) Exists(key string) bool {
 			return false
 		}
 	}
+}
+
+// 获取缓存数量
+func (c *cacheManager) Len() int {
+	return len(c.datas)
 }

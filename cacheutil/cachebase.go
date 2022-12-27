@@ -18,3 +18,8 @@ type cacheItem struct {
 	//缓存的过期时间
 	ExpireTime time.Time
 }
+
+// 是否过期
+func (c cacheItem) IsExpired() bool {
+	return c.ExpireTime.Before(time.Now())
+}

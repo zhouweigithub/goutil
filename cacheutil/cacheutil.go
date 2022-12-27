@@ -11,11 +11,6 @@ type cacheManager struct {
 	datas map[string]cacheItem
 }
 
-// 是否过期
-func (c cacheItem) IsExpired() bool {
-	return c.ExpireTime.Before(time.Now())
-}
-
 // 创建新实例（非线程安全）
 func New() cacheBase {
 	var c cacheManager
@@ -28,6 +23,7 @@ func (c *cacheManager) Get(key string) interface{} {
 	if key == "" {
 		return nil
 	}
+
 	if value, isExists := c.datas[key]; !isExists {
 		return nil
 	} else if value.IsExpired() {

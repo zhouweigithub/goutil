@@ -11,6 +11,7 @@ import (
 	"github.com/zhouweigithub/goutil/encryptutil"
 	"github.com/zhouweigithub/goutil/excelutil"
 	"github.com/zhouweigithub/goutil/guidutil"
+	"github.com/zhouweigithub/goutil/iputil"
 	"github.com/zhouweigithub/goutil/qrcodutil"
 	"github.com/zhouweigithub/goutil/randutil"
 	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
@@ -196,4 +197,9 @@ func TestCache(t *testing.T) {
 	fmt.Println(c.Get("hello"), c.Len())
 	time.Sleep(time.Second * 3)
 	fmt.Println(c.Get("hello"), c.Len())
+}
+
+func TestIP(t *testing.T) {
+	var a, err = iputil.GetLocalIp()
+	fmt.Println(a, err)
 }

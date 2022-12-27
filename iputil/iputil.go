@@ -39,14 +39,11 @@ func IsIp(ipstring string) bool {
 }
 
 // 获取本地IP地址 利用udp
-func GetLocalIpAddr() (string, error) {
+func GetLocalIp() (net.IP, error) {
 	conn, err := net.Dial("udp", "8.8.8.8:53")
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	localAddr := conn.LocalAddr().(*net.UDPAddr)
-	// 192.168.1.20:61085
-	ip := strings.Split(localAddr.String(), ":")[0]
-
-	return ip, nil
+	return localAddr.IP, nil
 }

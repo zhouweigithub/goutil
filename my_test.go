@@ -14,6 +14,7 @@ import (
 	"github.com/zhouweigithub/goutil/iputil"
 	"github.com/zhouweigithub/goutil/qrcodutil"
 	"github.com/zhouweigithub/goutil/randutil"
+	"github.com/zhouweigithub/goutil/setutil"
 	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
 	"github.com/zhouweigithub/goutil/stringutil"
 	"github.com/zhouweigithub/goutil/threadutil"
@@ -202,4 +203,18 @@ func TestCache(t *testing.T) {
 func TestIP(t *testing.T) {
 	var a, err = iputil.GetLocalIp()
 	fmt.Println(a, err)
+}
+
+func TestSet(t *testing.T) {
+	var set = setutil.NewSet[int]()
+	set.Add(3, 4, 5, 6, 3, 2, 5, 1, 4, 9)
+	fmt.Println(set.Exists(3))
+	fmt.Println(set.Exists(4))
+	fmt.Println(set.Exists(5))
+	set.Delete(3, 7, 6, 1)
+	fmt.Println(set.Exists(3))
+	fmt.Println(set.Exists(4))
+	fmt.Println(set.Exists(5))
+	fmt.Println(set.GetAll())
+	fmt.Println(set.GetAllSorted())
 }

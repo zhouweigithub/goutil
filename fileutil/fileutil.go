@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/zhouweigithub/goutil/logutil"
@@ -49,9 +50,9 @@ func WriteTextFile(path string, content string) bool {
 }
 
 // 如果不存在就创建目录
-func CreateFolderIfNotExists(path string) {
-	if !IsExists(path) {
-		if err := os.MkdirAll(path, os.ModePerm); err != nil {
+func CreateFolderIfNotExists(folder string) {
+	if !IsExists(folder) {
+		if err := os.MkdirAll(folder, os.ModePerm); err != nil {
 			log.Println(err.Error())
 			logutil.Error(err.Error())
 		}
@@ -82,6 +83,11 @@ func IsDir(path string) bool {
 // 判断所给路径是否为文件
 func IsFile(path string) bool {
 	return !IsDir(path)
+}
+
+// 获取文件路径的目录路径
+func GetFolder(filePath string) string {
+	return path.Dir(filePath)
 }
 
 // 获取子目录所有文件（仅文件名）

@@ -6,10 +6,12 @@ import (
 	"time"
 
 	"github.com/zhouweigithub/goutil/cacheutil"
+	"github.com/zhouweigithub/goutil/cmdutil"
 	"github.com/zhouweigithub/goutil/compressutil"
 	configutil "github.com/zhouweigithub/goutil/configUtil"
 	"github.com/zhouweigithub/goutil/encryptutil"
 	"github.com/zhouweigithub/goutil/excelutil"
+	"github.com/zhouweigithub/goutil/fileutil"
 	"github.com/zhouweigithub/goutil/guidutil"
 	"github.com/zhouweigithub/goutil/iputil"
 	"github.com/zhouweigithub/goutil/qrcodutil"
@@ -217,4 +219,29 @@ func TestSet(t *testing.T) {
 	fmt.Println(set.Exists(5))
 	fmt.Println(set.GetAll())
 	fmt.Println(set.GetAllSorted())
+}
+
+func TestCmd(t *testing.T) {
+	//fmt.Println(cmdutil.ExecuteCmd("ping", "www.baidu.com"))
+	//fmt.Println(cmdutil.ExecuteCmdInFolder("d:\\", "ipconfig"))
+	//fmt.Println(cmdutil.ExecuteCmdInFolderToShow("", "ping", "www.qq.com"))
+	//fmt.Println(cmdutil.ExecuteCmdInFolderToFile("d:\\", "logs/mylog.txt", "ping", "www.sina.com"))
+
+	fmt.Println(cmdutil.ExecuteCmd("cmd.exe", "dir"))
+	//fmt.Println(cmdutil.ExecuteCmdInFolder("cmd.exe", "dir"))
+
+}
+
+func TestByte(t *testing.T) {
+	var str = "你好w"
+	var b = []byte(str)
+	var c = []rune(str)
+	fmt.Println(b)
+	fmt.Println(c)
+	fmt.Println(string(b))
+	fmt.Println(string(c))
+}
+
+func TestFile(t *testing.T) {
+	fileutil.CreateFolderIfNotExists("\\los")
 }

@@ -227,9 +227,17 @@ func TestCmd(t *testing.T) {
 	//fmt.Println(cmdutil.ExecuteCmdInFolderToShow("", "ping", "www.qq.com"))
 	//fmt.Println(cmdutil.ExecuteCmdInFolderToFile("d:\\", "logs/mylog.txt", "ping", "www.sina.com"))
 
-	fmt.Println(cmdutil.ExecuteCmd("cmd.exe", "dir"))
-	//fmt.Println(cmdutil.ExecuteCmdInFolder("cmd.exe", "dir"))
+	fmt.Println(cmdutil.ExecuteCmd("cmd.exe", "/c", "dir"))
+	fmt.Println(cmdutil.ExecuteCmdInFolder("d:/", "cmd.exe", "/c", "dir"))
 
+	// cmd := exec.Command("cmd.exe", "/c", "dir")
+	// //cmd.Dir = "E:/svn"
+	// r, err := cmd.Output()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// r, _ = simplifiedchinese.GBK.NewDecoder().Bytes(r)
+	// fmt.Println(string(r))
 }
 
 func TestByte(t *testing.T) {

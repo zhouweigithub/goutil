@@ -1,6 +1,8 @@
 package fileutil
 
 import (
+	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -131,4 +133,72 @@ func getFilesWithRelativePaths(folder string, baseFolder string, isLoop bool) []
 func DeleteFileOrFolder(path string) error {
 	err := os.Remove(path)
 	return err
+}
+
+// 复制文件
+//
+//	fromFile：from file
+//	toFile：to file, if folder not exists create it
+//	return copyed bytes count, copyed error
+func CopyFile(fromFile, toFile string) (int64, error) {
+	sourceFileStat, err := os.Stat(fromFile)
+	if err != nil {
+		return 0, err
+	}
+
+	if !sourceFileStat.Mode().IsRegular() {
+		return 0, fmt.Errorf("%s is not a regular file", fromFile)
+	}
+
+	source, err := os.Open(fromFile)
+	if err != nil {
+		return 0, err
+	}
+	defer source.Close()
+
+	var toFolder = path.Dir(toFile)
+	CreateFolderIfNotExists(toFolder)
+	destination, err := os.Create(toFile)
+	if err != nil {
+		return 0, err
+	}
+
+	defer destination.Close()
+	nBytes, err := io.Copy(destination, source)
+	return nBytes, err
+}
+
+// 复制文件夹
+//
+//	fromFolder：from folder
+//	toFolder：to folder, if not exists create it
+func CopyFolder(fromFolder, toFolder string) error {
+	var err error
+	var fds []os.FileInfo
+	var srcinfo os.FileInfo
+
+	if srcinfo, err = os.Stat(fromFolder); err != nil {
+		return err
+	}
+	if err = os.MkdirAll(toFolder, srcinfo.Mode()); err != nil {
+		return err
+	}
+	if fds, err = ioutil.ReadDir(fromFolder); err != nil {
+		return err
+	}
+	for _, fd := range fds {
+		srcfp := path.Join(fromFolder, fd.Name())
+		dstfp := path.Join(toFolder, fd.Name())
+
+		if fd.IsDir() {
+			if err = CopyFolder(srcfp, dstfp); err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			if _, err = CopyFile(srcfp, dstfp); err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+	return nil
 }

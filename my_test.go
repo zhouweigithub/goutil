@@ -253,3 +253,8 @@ func TestByte(t *testing.T) {
 func TestFile(t *testing.T) {
 	fileutil.CreateFolderIfNotExists("\\los")
 }
+
+func TestCopyFile(t *testing.T) {
+	//fmt.Println(fileutil.CopyFile("C:/backup/notebook_202301031618.zip", "d:/zzz/x.zip"))
+	fmt.Println(fileutil.CopyFolder("C:/backup", "d:/backup"))
+}

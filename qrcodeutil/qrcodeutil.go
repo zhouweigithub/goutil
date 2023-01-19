@@ -1,4 +1,4 @@
-package qrcodutil
+package qrcodeutil
 
 import (
 	"image"

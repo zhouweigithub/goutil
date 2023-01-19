@@ -14,7 +14,7 @@ import (
 	"github.com/zhouweigithub/goutil/fileutil"
 	"github.com/zhouweigithub/goutil/guidutil"
 	"github.com/zhouweigithub/goutil/iputil"
-	"github.com/zhouweigithub/goutil/qrcodutil"
+	"github.com/zhouweigithub/goutil/qrcodeutil"
 	"github.com/zhouweigithub/goutil/randutil"
 	"github.com/zhouweigithub/goutil/setutil"
 	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
@@ -63,7 +63,7 @@ func init() {
 	sources = append(sources, Model{Name: "liming1", Age: 10})
 }
 
-var ints = []int{1, 4, 2, 1, 5, 3, 0, 4}
+//var ints = []int{1, 4, 2, 1, 5, 3, 0, 4}
 
 func TestFilter(t *testing.T) {
 	// var a = sliceutil.First(sources, func(item *Model) bool { return item.Age > 13 })
@@ -178,7 +178,7 @@ func TestGuid(t *testing.T) {
 }
 
 func TestQrcode(t *testing.T) {
-	fmt.Println(qrcodutil.CreatePngFile("http://promotion.79yougame.com/char.html", 200, "pngfile.png"))
+	fmt.Println(qrcodeutil.CreatePngFile("http://promotion.79yougame.com/char.html", 200, "pngfile.png"))
 	//qrcodutil.CreateQrcodePngBytes()
 }
 

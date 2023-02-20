@@ -35,20 +35,36 @@ func GetFileLines(path string) []string {
 	}
 }
 
-// 写入文本文件
-func WriteTextFile(path string, content string) bool {
-	if !IsExists(path) {
-		os.Create(path)
-	}
-	err := ioutil.WriteFile(path, []byte(content), 0644)
+// 覆盖已有文件，文件不存在则创建，目录需要提前创建
+func WriteTextFile(path string, content string) error {
+	f, err := os.OpenFile(path, os.O_RDONLY|os.O_CREATE, 0666)
 	if err != nil {
-		errMsg := "写入文件出错！" + path + "\r\n" + err.Error()
-		log.Println(errMsg)
-		logutil.Error(errMsg)
-		return false
-	} else {
-		return true
+		log.Println("open file error :", err)
+		return err
 	}
+	defer f.Close()
+	_, err = f.WriteString(content)
+	if err != nil {
+		log.Println("flush error :", err)
+		return err
+	}
+	return nil
+}
+
+// 追加内容到文本文件末尾，文件不存在则创建，目录需要提前创建
+func AppendTextFile(path string, content string) error {
+	f, err := os.OpenFile(path, os.O_RDONLY|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Println("open file error :", err)
+		return err
+	}
+	defer f.Close()
+	_, err = f.WriteString(content)
+	if err != nil {
+		log.Println("flush error :", err)
+		return err
+	}
+	return nil
 }
 
 // 如果不存在就创建目录
@@ -90,6 +106,21 @@ func IsFile(path string) bool {
 // 获取文件路径的目录路径
 func GetFolder(filePath string) string {
 	return path.Dir(filePath)
+}
+
+// 获取目录中满足正则式的所有目录
+func GetFolders(folder string, isLoop bool) []string {
+	files, _ := ioutil.ReadDir(folder)
+	var filePaths = []string{}
+	for _, file := range files {
+		if file.IsDir() {
+			filePaths = append(filePaths, file.Name())
+			if isLoop {
+				filePaths = append(filePaths, GetFiles(folder+"/"+file.Name(), true)...)
+			}
+		}
+	}
+	return filePaths
 }
 
 // 获取子目录所有文件（仅文件名）

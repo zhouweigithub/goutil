@@ -198,3 +198,10 @@ func Exclude[T comparable](datas []T, excludeDatas []T) []T {
 	}
 	return result
 }
+
+// 对切片倒序
+func Reverse[T any](datas []T) {
+	for i, j := 0, len(datas)-1; i < j; i, j = i+1, j-1 {
+		datas[i], datas[j] = datas[j], datas[i]
+	}
+}

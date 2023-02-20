@@ -251,7 +251,8 @@ func TestByte(t *testing.T) {
 }
 
 func TestFile(t *testing.T) {
-	fileutil.CreateFolderIfNotExists("\\los")
+	//fileutil.WriteTextFile("d:\\hello.txt", "hello world6")
+	fileutil.AppendTextFile("d:/hello.txt", "hello world3")
 }
 
 func TestCopyFile(t *testing.T) {

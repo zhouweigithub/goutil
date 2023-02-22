@@ -37,7 +37,7 @@ func GetFileLines(path string) []string {
 
 // 覆盖已有文件，文件不存在则创建，目录需要提前创建
 func WriteTextFile(path string, content string) error {
-	f, err := os.OpenFile(path, os.O_RDONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		log.Println("open file error :", err)
 		return err
@@ -53,7 +53,7 @@ func WriteTextFile(path string, content string) error {
 
 // 追加内容到文本文件末尾，文件不存在则创建，目录需要提前创建
 func AppendTextFile(path string, content string) error {
-	f, err := os.OpenFile(path, os.O_RDONLY|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Println("open file error :", err)
 		return err
@@ -151,10 +151,10 @@ func getFilesWithRelativePaths(folder string, baseFolder string, isLoop bool) []
 	for _, file := range files {
 		if file.IsDir() {
 			if isLoop {
-				filePaths = append(filePaths, getFilesWithRelativePaths(folder+"\\"+file.Name(), baseFolder, true)...)
+				filePaths = append(filePaths, getFilesWithRelativePaths(folder+"/"+file.Name(), baseFolder, true)...)
 			}
 		} else {
-			filePaths = append(filePaths, folder+"\\"+file.Name())
+			filePaths = append(filePaths, folder+"/"+file.Name())
 		}
 	}
 	return filePaths

@@ -264,7 +264,7 @@ func TestCopyFile(t *testing.T) {
 }
 
 func TestRequest(t *testing.T) {
-	var urls = "http://promotion.79yougame.com/DayLog/Index?a=b&b=c"
+	var urls = "http://baidu.com/DayLog/Index?a=b&b=c"
 	var headers = make(map[string]string)
 	headers["Content-Type"] = "application/json"
 	headers["header1"] = "one header"
@@ -273,4 +273,86 @@ func TestRequest(t *testing.T) {
 	cookies["cookit2"] = "oh,this t cookie"
 	var _, bbb, ccc, ddd = webutil.GetWeb(urls, headers, cookies, "http://10.254.0.191:8888", 2)
 	fmt.Println(bbb, ccc, ddd)
+}
+
+func TestRSA(t *testing.T) {
+	applyPubEPriD()
+}
+
+var publicKey = `-----BEGIN Public key-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk+89V7vpOj1rG6bTAKYM
+56qmFLwNCBVDJ3MltVVtxVUUByqc5b6u909MmmrLBqS//PWC6zc3wZzU1+ayh8xb
+UAEZuA3EjlPHIaFIVIz04RaW10+1xnby/RQE23tDqsv9a2jv/axjE/27b62nzvCW
+eItu1kNQ3MGdcuqKjke+LKhQ7nWPRCOd/ffVqSuRvG0YfUEkOz/6UpsPr6vrI331
+hWRB4DlYy8qFUmDsyvvExe4NjZWblXCqkEXRRAhi2SQRCl3teGuIHtDUxCskRIDi
+aMD+Qt2Yp+Vvbz6hUiqIWSIH1BoHJer/JOq2/O6X3cmuppU4AdVNgy8Bq236iXvr
+MQIDAQAB
+-----END Public key-----`
+
+var privateKey = `-----BEGIN Private key-----
+MIIEpAIBAAKCAQEAk+89V7vpOj1rG6bTAKYM56qmFLwNCBVDJ3MltVVtxVUUByqc
+5b6u909MmmrLBqS//PWC6zc3wZzU1+ayh8xbUAEZuA3EjlPHIaFIVIz04RaW10+1
+xnby/RQE23tDqsv9a2jv/axjE/27b62nzvCWeItu1kNQ3MGdcuqKjke+LKhQ7nWP
+RCOd/ffVqSuRvG0YfUEkOz/6UpsPr6vrI331hWRB4DlYy8qFUmDsyvvExe4NjZWb
+lXCqkEXRRAhi2SQRCl3teGuIHtDUxCskRIDiaMD+Qt2Yp+Vvbz6hUiqIWSIH1BoH
+Jer/JOq2/O6X3cmuppU4AdVNgy8Bq236iXvrMQIDAQABAoIBAQCCbxZvHMfvCeg+
+YUD5+W63dMcq0QPMdLLZPbWpxMEclH8sMm5UQ2SRueGY5UBNg0WkC/R64BzRIS6p
+jkcrZQu95rp+heUgeM3C4SmdIwtmyzwEa8uiSY7Fhbkiq/Rly6aN5eB0kmJpZfa1
+6S9kTszdTFNVp9TMUAo7IIE6IheT1x0WcX7aOWVqp9MDXBHV5T0Tvt8vFrPTldFg
+IuK45t3tr83tDcx53uC8cL5Ui8leWQjPh4BgdhJ3/MGTDWg+LW2vlAb4x+aLcDJM
+CH6Rcb1b8hs9iLTDkdVw9KirYQH5mbACXZyDEaqj1I2KamJIU2qDuTnKxNoc96HY
+2XMuSndhAoGBAMPwJuPuZqioJfNyS99x++ZTcVVwGRAbEvTvh6jPSGA0k3cYKgWR
+NnssMkHBzZa0p3/NmSwWc7LiL8whEFUDAp2ntvfPVJ19Xvm71gNUyCQ/hojqIAXy
+tsNT1gBUTCMtFZmAkUsjqdM/hUnJMM9zH+w4lt5QM2y/YkCThoI65BVbAoGBAMFI
+GsIbnJDNhVap7HfWcYmGOlWgEEEchG6Uq6Lbai9T8c7xMSFc6DQiNMmQUAlgDaMV
+b6izPK4KGQaXMFt5h7hekZgkbxCKBd9xsLM72bWhM/nd/HkZdHQqrNAPFhY6/S8C
+IjRnRfdhsjBIA8K73yiUCsQlHAauGfPzdHET8ktjAoGAQdxeZi1DapuirhMUN9Zr
+kr8nkE1uz0AafiRpmC+cp2Hk05pWvapTAtIXTo0jWu38g3QLcYtWdqGa6WWPxNOP
+NIkkcmXJjmqO2yjtRg9gevazdSAlhXpRPpTWkSPEt+o2oXNa40PomK54UhYDhyeu
+akuXQsD4mCw4jXZJN0suUZMCgYAgzpBcKjulCH19fFI69RdIdJQqPIUFyEViT7Hi
+bsPTTLham+3u78oqLzQukmRDcx5ddCIDzIicMfKVf8whertivAqSfHytnf/pMW8A
+vUPy5G3iF5/nHj76CNRUbHsfQtv+wqnzoyPpHZgVQeQBhcoXJSm+qV3cdGjLU6OM
+HgqeaQKBgQCnmL5SX7GSAeB0rSNugPp2GezAQj0H4OCc8kNrHK8RUvXIU9B2zKA2
+z/QUKFb1gIGcKxYr+LqQ25/+TGvINjuf6P3fVkHL0U8jOG0IqpPJXO3Vl9B8ewWL
+cFQVB/nQfmaMa4ChK0QEUe+Mqi++MwgYbRHx1lIOXEfUJO+PXrMekw==
+-----END Private key-----`
+
+// Public key encryption private key decryption
+func applyPubEPriD() {
+	var s = encryptutil.Rsa()
+	{
+		fmt.Println("公钥加密，私钥解密")
+		var a, _ = s.PublicEncrypt("hello", publicKey)
+		fmt.Println(a)
+		var b, _ = s.PriKeyDecrypt(a, privateKey)
+		fmt.Println(b)
+	}
+	{
+		fmt.Println("私钥加密，公钥解密")
+		var a, _ = s.PriKeyEncrypt("hello", privateKey)
+		fmt.Println(a)
+		var b, _ = s.PublicDecrypt(a, publicKey)
+		fmt.Println(b)
+	}
+	{
+		fmt.Println("使用RSAWithMD5算法签名")
+		var a, _ = s.SignMd5WithRsa("hello", privateKey)
+		fmt.Println(a)
+		var b = s.VerifySignMd5WithRsa("hello", a, publicKey)
+		fmt.Println(b)
+	}
+	{
+		fmt.Println("使用RSAWithSHA1算法签名")
+		var a, _ = s.SignSha1WithRsa("hello", privateKey)
+		fmt.Println(a)
+		var b = s.VerifySignSha1WithRsa("hello", a, publicKey)
+		fmt.Println(b)
+	}
+	{
+		fmt.Println("使用RSAWithSHA256算法签名")
+		var a, _ = s.SignSha256WithRsa("hello", privateKey)
+		fmt.Println(a)
+		var b = s.VerifySignSha256WithRsa("hello", a, publicKey)
+		fmt.Println(b)
+	}
 }

@@ -20,6 +20,7 @@ import (
 	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
 	"github.com/zhouweigithub/goutil/stringutil"
 	"github.com/zhouweigithub/goutil/threadutil"
+	"github.com/zhouweigithub/goutil/webutil"
 )
 
 type ConModel struct {
@@ -256,6 +257,20 @@ func TestFile(t *testing.T) {
 }
 
 func TestCopyFile(t *testing.T) {
-	//fmt.Println(fileutil.CopyFile("C:/backup/notebook_202301031618.zip", "d:/zzz/x.zip"))
-	fmt.Println(fileutil.CopyFolder("C:/backup", "d:/backup"))
+	var maps map[string]string
+	for k, v := range maps {
+		fmt.Println(k, v)
+	}
+}
+
+func TestRequest(t *testing.T) {
+	var urls = "http://promotion.79yougame.com/DayLog/Index?a=b&b=c"
+	var headers = make(map[string]string)
+	headers["Content-Type"] = "application/json"
+	headers["header1"] = "one header"
+	var cookies = make(map[string]string)
+	cookies["cookit1"] = "oh,this a cookie"
+	cookies["cookit2"] = "oh,this t cookie"
+	var _, bbb, ccc, ddd = webutil.GetWeb(urls, headers, cookies, "http://10.254.0.191:8888", 2)
+	fmt.Println(bbb, ccc, ddd)
 }

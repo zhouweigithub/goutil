@@ -4,7 +4,6 @@ import (
 	"net"
 	"regexp"
 	"strings"
-	"time"
 
 	"github.com/zhouweigithub/goutil/errutil"
 	"github.com/zhouweigithub/goutil/logutil"
@@ -12,15 +11,18 @@ import (
 	"github.com/zhouweigithub/goutil/webutil"
 )
 
+// 获取本机公网IP的域名集
 var ipServerList = [...]string{"https://ipv4.ddnspod.com", "https://ipecho.net/plain", "https://ipinfo.io/ip"}
 
-// 获取本地计算机的远程IP地址
-func GetRemoteIp(timeout time.Duration) string {
+// 获取本地计算机的公网IP地址
+//
+//	timeout: 超时时间（秒）
+func GetRemoteIp(timeout int) string {
 	defer errutil.CatchError()
 	var randIndex = randutil.GetRandInt(0, len(ipServerList)-1)
-	html, _, err := webutil.GetWithTimeOut(ipServerList[randIndex], timeout)
+	html, _, _, err := webutil.GetWeb(ipServerList[randIndex], nil, nil, "", timeout)
 	if err != nil {
-		logutil.Error("获取本机远程IP失败：" + err.Error())
+		logutil.Error("获取本机公网IP失败：" + err.Error())
 		return ""
 	} else {
 		var ip = strings.Trim(strings.Trim(html, "\n"), " ")

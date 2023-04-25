@@ -12,22 +12,27 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-// MailHelper 邮件功能
+// 邮件功能
 type MailHelper struct {
-	// ServerHost 邮箱服务器地址，如腾讯企业邮箱为smtp.qq.com
+	// 邮箱服务器地址，如腾讯企业邮箱为smtp.qq.com
 	ServerHost string
-	// ServerPort 邮箱服务器端口，如腾讯企业邮箱为465
+	// 邮箱服务器端口，如腾讯企业邮箱为465
 	ServerPort int
-	// FromEmail　发件人邮箱地址
+	// 发件人邮箱地址
 	FromEmail string
-	// FromPasswd 发件人邮箱密码（注意，这里是明文形式）
+	// 发件人邮箱密码（注意，这里是明文形式）
 	FromPasswd string
 
 	msg    *gomail.Message
 	dialer *gomail.Dialer
 }
 
-// Init 初始化邮件选项
+// 初始化邮件选项
+//
+//	host: 邮件服务器地址
+//	port: 邮件服务器端口号
+//	from: 发件人邮箱
+//	pwd: 发件人密码
 func (m *MailHelper) Init(host string, port int, from string, pwd string) {
 	defer errutil.CatchError()
 	m.ServerHost = host
@@ -43,7 +48,11 @@ func (m *MailHelper) Init(host string, port int, from string, pwd string) {
 	m.msg.SetAddressHeader("From", from, "客服助理")
 }
 
-// SendEmail 同步发送邮件（需要先调用Init()方法）
+// 同步发送邮件（需要先调用Init()方法）
+//
+//	subject: 邮件标题
+//	body: 邮件正文（contentType=text/html）
+//	tors: 收件人，多个以逗号分隔
 func (m *MailHelper) SendEmail(subject, body, tors string) error {
 	defer errutil.CatchError()
 	// 主题
@@ -87,7 +96,11 @@ func (m *MailHelper) SendEmail(subject, body, tors string) error {
 	return err
 }
 
-// SendEmailAsync 异步发送邮件（需要先调用Init()方法）
+// 异步发送邮件（需要先调用Init()方法）
+//
+//	subject: 邮件标题
+//	body: 邮件正文（contentType=text/html）
+//	tors: 收件人，多个以逗号分隔
 func (m *MailHelper) SendEmailAsync(subject, body, tors string) {
 	go m.SendEmail(subject, body, tors)
 }

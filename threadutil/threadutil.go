@@ -25,7 +25,6 @@ func Threading[T any](sources []T, threadCount int, action func(item *T)) {
 					mutex.Unlock()
 					break
 				}
-				//fmt.Println(runningIndex)
 				var curIndex = runningIndex
 				runningIndex++
 				mutex.Unlock()

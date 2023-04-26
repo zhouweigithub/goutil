@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 	"time"
@@ -14,6 +15,7 @@ import (
 	"github.com/zhouweigithub/goutil/fileutil"
 	"github.com/zhouweigithub/goutil/guidutil"
 	"github.com/zhouweigithub/goutil/iputil"
+	"github.com/zhouweigithub/goutil/jsutil"
 	"github.com/zhouweigithub/goutil/qrcodeutil"
 	"github.com/zhouweigithub/goutil/randutil"
 	"github.com/zhouweigithub/goutil/setutil"
@@ -355,4 +357,35 @@ func applyPubEPriD() {
 		var b = s.VerifySignSha256WithRsa("hello", a, publicKey)
 		fmt.Println(b)
 	}
+}
+
+func TestJs(t *testing.T) {
+	var js jsMap
+	if err := js.LoadFile("test.js"); err != nil {
+		fmt.Println(err.Error())
+	} else {
+		var a, err = js.AddInt()
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(a(3, 5))
+		}
+	}
+}
+
+type jsMap struct {
+	jsutil.JsHelper
+}
+
+func (j *jsMap) AddInt() (fn func(int, int) int, err error) {
+	var tmp = j.Vm.Get("addInt")
+	if tmp == nil {
+		err = errors.New("Js函数 addInt 映射到 Go 函数失败！js中未找到该函数 addInt")
+	} else {
+		err = j.Vm.ExportTo(tmp, &fn)
+		if err != nil {
+			err = errors.New("Js函数 addInt 映射到 Go 函数失败！\n" + err.Error())
+		}
+	}
+	return
 }

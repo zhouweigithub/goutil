@@ -144,8 +144,6 @@ func sendRequest(requestUrl, method, postData string, headers, cookies map[strin
 
 	var client = &http.Client{}
 
-	//转换成postBody
-	bytesData := bytes.NewBuffer([]byte(postData))
 	//设置超时时间
 	if timeout > 0 {
 		client.Timeout = time.Second * time.Duration(timeout)
@@ -160,6 +158,11 @@ func sendRequest(requestUrl, method, postData string, headers, cookies map[strin
 		client.Transport = transport
 	}
 
+	//转换成postBody
+	var bytesData *bytes.Buffer
+	if postData != "" {
+		bytesData = bytes.NewBuffer([]byte(postData))
+	}
 	req, err := http.NewRequest(method, requestUrl, bytesData)
 	if err != nil {
 		logutil.Error(err.Error())
@@ -169,7 +172,7 @@ func sendRequest(requestUrl, method, postData string, headers, cookies map[strin
 	req.Close = true
 
 	for k, v := range headers {
-		req.Header.Add(k, v)
+		req.Header.Set(k, v)
 	}
 	for k, v := range cookies {
 		req.AddCookie(&http.Cookie{Name: k, Value: v})

@@ -123,7 +123,7 @@ func PostWithProxy(postUrl string, json string, headers map[string]string, cooki
 //	timeout: 超时时间（秒）
 //	返回值：返回的内容，返回的cookies，请求用时，错误信息
 func PostWeb(requestUrl, postData string, headers, cookies map[string]string, proxy string, timeout int) (string, []*http.Cookie, float64, error) {
-	return sendRequest(requestUrl, "Post", postData, headers, cookies, proxy, timeout)
+	return sendRequest(requestUrl, http.MethodPost, postData, headers, cookies, proxy, timeout)
 }
 
 // 发送Get请求
@@ -135,7 +135,7 @@ func PostWeb(requestUrl, postData string, headers, cookies map[string]string, pr
 //	timeout: 超时时间（秒）
 //	返回值：返回的内容，返回的cookies，请求用时，错误信息
 func GetWeb(requestUrl string, headers, cookies map[string]string, proxy string, timeout int) (string, []*http.Cookie, float64, error) {
-	return sendRequest(requestUrl, "Get", "", headers, cookies, proxy, timeout)
+	return sendRequest(requestUrl, http.MethodGet, "", headers, cookies, proxy, timeout)
 }
 
 // 使用代理发送请求
@@ -159,10 +159,7 @@ func sendRequest(requestUrl, method, postData string, headers, cookies map[strin
 	}
 
 	//转换成postBody
-	var bytesData *bytes.Buffer
-	if postData != "" {
-		bytesData = bytes.NewBuffer([]byte(postData))
-	}
+	bytesData := bytes.NewBuffer([]byte(postData))
 	req, err := http.NewRequest(method, requestUrl, bytesData)
 	if err != nil {
 		logutil.Error(err.Error())

@@ -3,13 +3,15 @@ package main
 import (
 	"errors"
 	"fmt"
+	"net"
+	"strconv"
 	"testing"
 	"time"
 
 	"github.com/zhouweigithub/goutil/cacheutil"
 	"github.com/zhouweigithub/goutil/cmdutil"
 	"github.com/zhouweigithub/goutil/compressutil"
-	configutil "github.com/zhouweigithub/goutil/configUtil"
+	"github.com/zhouweigithub/goutil/configutil"
 	"github.com/zhouweigithub/goutil/encryptutil"
 	"github.com/zhouweigithub/goutil/excelutil"
 	"github.com/zhouweigithub/goutil/fileutil"
@@ -19,7 +21,8 @@ import (
 	"github.com/zhouweigithub/goutil/qrcodeutil"
 	"github.com/zhouweigithub/goutil/randutil"
 	"github.com/zhouweigithub/goutil/setutil"
-	sliceutil "github.com/zhouweigithub/goutil/sliceUtil"
+	"github.com/zhouweigithub/goutil/sliceutil"
+	"github.com/zhouweigithub/goutil/socketutil/udputil"
 	"github.com/zhouweigithub/goutil/stringutil"
 	"github.com/zhouweigithub/goutil/threadutil"
 	"github.com/zhouweigithub/goutil/webutil"
@@ -388,4 +391,54 @@ func (j *jsMap) AddInt() (fn func(int, int) int, err error) {
 		}
 	}
 	return
+}
+
+func TestUdpClient(t *testing.T) {
+	var cli = udputil.CreateClient("10.254.0.191", 3387)
+
+	//for i := 0; i < 5; i++ {
+	var msg = "hello , boy [" + strconv.Itoa(1) + "]"
+	if err := cli.SendUdp(msg); err != nil {
+		fmt.Println("send err:" + err.Error())
+	} else {
+		fmt.Println("client send data: " + msg)
+	}
+	time.Sleep(time.Second)
+	//}
+
+	cli.ReceiveUdp(func(data []byte, err error) {
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Printf("client receive data from %s:%s", cli.RemoteIp, string(data))
+		}
+	})
+}
+func TestUdpServer(t *testing.T) {
+	var ser = udputil.CreateServer(3387)
+	var lis = ser.ListenUdp(func(data []byte, remoteAddr *net.UDPAddr, err error) {
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Printf("server receive data from %s:%s\n", remoteAddr.String(), string(data))
+		}
+		var msg = string(data) + " // back to you"
+		if err := ser.SendUdp(remoteAddr.String(), msg); err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println("server send data: " + msg)
+		}
+	})
+
+	if lis == nil {
+		fmt.Printf("listing %s\n", ser.LocalAddress)
+	} else {
+		fmt.Println(lis)
+	}
+
+	if err := ser.SendToAnyUdp("10.254.0.19", 6654, "hello myself"); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("server send data over ")
+	}
 }

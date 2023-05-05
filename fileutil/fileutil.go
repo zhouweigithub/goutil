@@ -1,6 +1,7 @@
 package fileutil
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -34,6 +35,48 @@ func GetFileLines(path string) []string {
 	} else {
 		return strings.Split(content, "\r\n")
 	}
+}
+
+// 读取文件字节码
+func ReadFile(path string) ([]byte, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		log.Println("open file error :", err)
+		return nil, err
+	}
+	defer f.Close()
+
+	r := bufio.NewReader(f)
+	var chunks []byte
+	buf := make([]byte, 2048)
+
+	for {
+		n, err := r.Read(buf)
+		if err != nil && err != io.EOF {
+			return nil, err
+		}
+		if n == 0 {
+			break
+		}
+		chunks = append(chunks, buf...)
+	}
+	return chunks, nil
+}
+
+// 覆盖已有文件，文件不存在则创建，目录需要提前创建
+func WriteFile(path string, data []byte) error {
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		log.Println("open file error :", err)
+		return err
+	}
+	defer f.Close()
+	_, err = f.Write(data)
+	if err != nil {
+		log.Println("flush error :", err)
+		return err
+	}
+	return nil
 }
 
 // 覆盖已有文件，文件不存在则创建，目录需要提前创建

@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/zhouweigithub/goutil/logutil"
@@ -101,6 +102,16 @@ func IsDir(path string) bool {
 // 判断所给路径是否为文件
 func IsFile(path string) bool {
 	return !IsDir(path)
+}
+
+// 判断是否为绝对路径
+func IsAbs(path string) bool {
+	return filepath.IsAbs(path)
+}
+
+// 转换为绝对路径
+func Abs(path string) (string, error) {
+	return filepath.Abs(path)
 }
 
 // 获取文件路径的目录路径

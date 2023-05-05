@@ -20,6 +20,7 @@ import (
 	"github.com/zhouweigithub/goutil/jsutil"
 	"github.com/zhouweigithub/goutil/qrcodeutil"
 	"github.com/zhouweigithub/goutil/randutil"
+	"github.com/zhouweigithub/goutil/screenshotutil"
 	"github.com/zhouweigithub/goutil/setutil"
 	"github.com/zhouweigithub/goutil/sliceutil"
 	"github.com/zhouweigithub/goutil/socketutil/udputil"
@@ -441,4 +442,9 @@ func TestUdpServer(t *testing.T) {
 	} else {
 		fmt.Println("server send data over ")
 	}
+}
+
+func TestSceenShot(t *testing.T) {
+	var sc = screenshotutil.New(`C:\Users\Me\AppData\Local\Google\Chrome\Application\chrome.exe`, "imgs")
+	sc.ScreenShot(`https://www.baidu.com`)
 }

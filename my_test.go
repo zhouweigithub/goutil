@@ -162,8 +162,11 @@ func TestSlice(t *testing.T) {
 	// var d = sliceutil.Distinct(c)
 	// fmt.Println(c, d)
 
-	sliceutil.ForEach(a, func(item *int) { *item = *item + 10 })
-	fmt.Println(a)
+	//sliceutil.ForEach(a, func(item *int) { *item = *item + 10 })
+	//fmt.Println(a)
+
+	fmt.Println(sliceutil.Contains(a, 3))
+	fmt.Println(sliceutil.IndexOf(a, 5))
 
 	// var a1 = sliceutil.Where(sources, func(item *Model) bool { return item.Age > 13 })
 	// var a2 = sliceutil.WhereReference(sources, func(item *Model) bool { return item.Age > 13 })

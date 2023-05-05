@@ -56,8 +56,21 @@ func WhereReference[T any](datas []T, filter func(item *T) bool) []*T {
 	return result
 }
 
+// 检查元素是否存在
+func Contains[T comparable](datas []T, item T) bool {
+	if len(datas) == 0 {
+		return false
+	}
+	for i := range datas {
+		if datas[i] == item {
+			return true
+		}
+	}
+	return false
+}
+
 // 检查是否存在满足条件的元素
-func Contains[T any](datas []T, filter func(item *T) bool) bool {
+func ContainsFunc[T any](datas []T, filter func(item *T) bool) bool {
 	if len(datas) == 0 {
 		return false
 	}
@@ -81,8 +94,21 @@ func Select[T any, K any](datas []T, filter func(item *T) K) []K {
 	return result
 }
 
+// 查找第一个元素的索引
+func IndexOf[T comparable](datas []T, item T) int {
+	if len(datas) == 0 {
+		return -1
+	}
+	for i := range datas {
+		if datas[i] == item {
+			return i
+		}
+	}
+	return -1
+}
+
 // 查找第一个满足条件元素的索引
-func IndexOf[T any](datas []T, filter func(item *T) bool) int {
+func IndexOfFunc[T any](datas []T, filter func(item *T) bool) int {
 	if len(datas) == 0 {
 		return -1
 	}
@@ -94,8 +120,21 @@ func IndexOf[T any](datas []T, filter func(item *T) bool) int {
 	return -1
 }
 
+// 查找最后一个元素的索引
+func LastIndexOf[T comparable](datas []T, item T) int {
+	if len(datas) == 0 {
+		return -1
+	}
+	for i := len(datas) - 1; i >= 0; i-- {
+		if datas[i] == item {
+			return i
+		}
+	}
+	return -1
+}
+
 // 查找最后一个满足条件元素的索引
-func LastIndexOf[T any](datas []T, filter func(item *T) bool) int {
+func LastIndexOfFunc[T any](datas []T, filter func(item *T) bool) int {
 	if len(datas) == 0 {
 		return -1
 	}
@@ -153,9 +192,9 @@ func Distinct[T comparable](datas []T) []T {
 	}
 	var distinctFieldValues []T
 	for i := range datas {
-		var v = datas[i]
-		if !Contains(distinctFieldValues, func(subItem *T) bool { return *subItem == v }) {
-			distinctFieldValues = append(distinctFieldValues, v)
+		var item = datas[i]
+		if !Contains(distinctFieldValues, item) {
+			distinctFieldValues = append(distinctFieldValues, item)
 			result = append(result, datas[i])
 		}
 	}
@@ -192,7 +231,7 @@ func Exclude[T comparable](datas []T, excludeDatas []T) []T {
 	}
 	var result = []T{}
 	for i := range datas {
-		if !Contains(excludeDatas, func(item *T) bool { return *item == datas[i] }) {
+		if !Contains(excludeDatas, datas[i]) {
 			result = append(result, datas[i])
 		}
 	}

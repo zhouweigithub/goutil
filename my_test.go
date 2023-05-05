@@ -457,3 +457,7 @@ func TestCap(t *testing.T) {
 	fmt.Println(captchautil.GetImgCaptcha())
 	fmt.Println(captchautil.Verify("123", "adfa"))
 }
+
+func TestTcp(t *testing.T) {
+	// tcputil.CreateClient()
+}

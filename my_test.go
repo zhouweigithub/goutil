@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/zhouweigithub/goutil/cacheutil"
+	"github.com/zhouweigithub/goutil/captchautil"
 	"github.com/zhouweigithub/goutil/cmdutil"
 	"github.com/zhouweigithub/goutil/compressutil"
 	"github.com/zhouweigithub/goutil/configutil"
@@ -450,4 +451,9 @@ func TestUdpServer(t *testing.T) {
 func TestSceenShot(t *testing.T) {
 	var sc = screenshotutil.New(`C:\Users\Me\AppData\Local\Google\Chrome\Application\chrome.exe`, "imgs")
 	sc.ScreenShot(`https://www.baidu.com`)
+}
+
+func TestCap(t *testing.T) {
+	fmt.Println(captchautil.GetImgCaptcha())
+	fmt.Println(captchautil.Verify("123", "adfa"))
 }

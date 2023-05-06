@@ -170,8 +170,22 @@ func Count[T any](datas []T, filter func(item *T) bool) int {
 	return count
 }
 
+// 删除元素
+func Remove[T comparable](datas []T, item T) []T {
+	if len(datas) == 0 {
+		return datas
+	}
+	var result = []T{}
+	for i := range datas {
+		if datas[i] != item {
+			result = append(result, datas[i])
+		}
+	}
+	return result
+}
+
 // 删除满足条件的所有元素
-func Remove[T any](datas []T, filter func(item *T) bool) []T {
+func RemoveFunc[T any](datas []T, filter func(item *T) bool) []T {
 	if len(datas) == 0 {
 		return datas
 	}

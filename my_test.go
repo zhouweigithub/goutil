@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -43,11 +44,11 @@ func TestConfig(t *testing.T) {
 }
 
 func TestThreading(t *testing.T) {
-	var sources = []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+	var sources = []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11}
 	fmt.Println("start")
 	fmt.Println(sources)
 	threadutil.Threading(sources, 2, func(item *int) {
-		//fmt.Println(*item)
+		fmt.Println(*item)
 		*item = *item + 10
 	})
 	fmt.Println(sources)
@@ -95,7 +96,7 @@ func TestFilter(t *testing.T) {
 	//sliceutil.OrderBy(sources, func(i, j int) bool { return sources[i].Age < sources[j].Age })
 
 	//var a = sliceutil.Distinct(sources)
-	var a = sliceutil.Remove(sources, func(item *Model) bool { return item.Age == 10 })
+	var a = sliceutil.RemoveFunc(sources, func(item *Model) bool { return item.Age == 10 })
 	fmt.Println(a)
 }
 
@@ -460,4 +461,9 @@ func TestCap(t *testing.T) {
 
 func TestTcp(t *testing.T) {
 	// tcputil.CreateClient()
+}
+
+func TestAtomic(t *testing.T) {
+	var a atomic.Int32
+	fmt.Println(a.Load() == 0)
 }

@@ -2,38 +2,34 @@ package threadutil
 
 import (
 	"sync"
+	"sync/atomic"
 )
 
 // 启用多线程完成任务
 func Threading[T any](sources []T, threadCount int, action func(item *T)) {
+	var sourceCount = len(sources)
 	if len(sources) == 0 || threadCount == 0 || action == nil {
 		return
 	}
-	if threadCount > len(sources) {
-		threadCount = len(sources)
+	if threadCount > sourceCount {
+		threadCount = sourceCount
 	}
-	var mutex = &sync.Mutex{}
 	var group = &sync.WaitGroup{}
-	var runningIndex = 0
+	var runningIndex atomic.Int32
 
 	for i := 0; i < threadCount; i++ {
 		group.Add(1)
 		go func() {
 			for {
-				mutex.Lock()
-				if runningIndex >= len(sources) {
-					mutex.Unlock()
+				var index = int(runningIndex.Load())
+				if index >= sourceCount {
 					break
 				}
-				var curIndex = runningIndex
-				runningIndex++
-				mutex.Unlock()
-
-				action(&sources[curIndex])
+				runningIndex.Add(1)
+				action(&sources[index])
 			}
 			group.Done()
 		}()
 	}
-
 	group.Wait()
 }

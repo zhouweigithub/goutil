@@ -46,7 +46,7 @@ func (s *udpServer) ListenUdp(deal func(data []byte, remoteAddr *net.UDPAddr, er
 		return err
 	}
 
-	data := make([]byte, 4096)
+	data := make([]byte, 1024)
 	go func() {
 		for {
 			n, remoteAddr, err := s.conn.ReadFromUDP(data)

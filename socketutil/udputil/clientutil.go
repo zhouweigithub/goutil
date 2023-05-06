@@ -58,7 +58,7 @@ func (s *udpClient) SendUdp(msg string) error {
 //	deal: 接收到消息后的操作
 func (s *udpClient) ReceiveUdp(deal func(msg []byte, err error)) {
 	go func() {
-		data := make([]byte, 4096)
+		data := make([]byte, 1024)
 		for {
 			if s.conn != nil {
 				s.reader = bufio.NewReader(s.conn)

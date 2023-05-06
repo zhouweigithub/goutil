@@ -112,7 +112,7 @@ func (t *tcpClient) SendSysMsg(msg string) {
 func (t *tcpClient) SendUserMsg(msg string, tos ...string) {
 	msg = strings.TrimSpace(msg)
 	// 移除空数据
-	tos = sliceutil.Remove(tos, func(item *string) bool { return *item == "" })
+	tos = sliceutil.Remove(tos, "")
 	var data = ToServerMsg{
 		EventType: UserMsg,
 		Data:      msg,
